@@ -28,7 +28,6 @@ COPY backend/seed_data.py backend/smoke_test.py ./backend/
 COPY --from=web-build /build/dist ./frontend/dist
 
 ENV DATABASE_URL=sqlite:///./campus_transit.db \
-    SECRET_KEY=change-me \
     CORS_ORIGINS="*" \
     SEED_DEMO_DATA=1
 
