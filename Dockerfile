@@ -36,4 +36,4 @@ EXPOSE 8000
 
 WORKDIR /srv/app/backend
 
-CMD ["sh", "-c", "if [ \"$SEED_DEMO_DATA\" = \"1\" ]; then python seed_data.py --if-empty; fi && python -m uvicorn app.main:app --host 0.0.0.0 --port 8000"]
+CMD ["sh", "-c", "if [ \"$SEED_DEMO_DATA\" = \"1\" ]; then python seed_data.py --if-empty; fi && python -m uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
