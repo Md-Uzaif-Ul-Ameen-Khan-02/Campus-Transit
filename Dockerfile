@@ -36,4 +36,4 @@ EXPOSE 8000
 
 WORKDIR /srv/app/backend
 
-CMD ["sh", "-c", "if [ \"$SEED_DEMO_DATA\" = \"1\" ]; then python seed_data.py --if-empty; fi && python -m uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
+CMD ["sh", "-c", "if [ \"$SEED_DEMO_DATA\" = \"1\" ]; then n=0; until python seed_data.py --if-empty || [ $n -ge 24 ]; do n=$((n+1)); echo \"[boot] Waiting for database ($n/24)...\"; sleep 5; done; fi && exec python -m uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
