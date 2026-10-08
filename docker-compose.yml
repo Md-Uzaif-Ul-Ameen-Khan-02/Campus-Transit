@@ -1,0 +1,32 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: transit
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-transit_pass}
+      POSTGRES_DB: campus_transit
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U transit -d campus_transit"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+  api:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql+psycopg2://transit:${POSTGRES_PASSWORD:-transit_pass}@db:5432/campus_transit
+      SECRET_KEY: ${SECRET_KEY:?set SECRET_KEY in .env (required in production)}
+      CORS_ORIGINS: ${CORS_ORIGINS:-*}
+      SEED_DEMO_DATA: ${SEED_DEMO_DATA:-1}
+    ports:
+      - "${BACKEND_PORT:-8000}:8000"
+    restart: unless-stopped
+
+volumes:
+  pgdata:

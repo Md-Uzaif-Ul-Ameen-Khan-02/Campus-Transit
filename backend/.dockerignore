@@ -1,0 +1,6 @@
+campus_transit.db
+__pycache__
+*.pyc
+.venv
+venv
+uvicorn.log

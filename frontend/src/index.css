@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  @apply bg-slate-100 text-slate-900 antialiased;
+  font-feature-settings: "cv02", "cv03", "cv04";
+}
+
+/* Leaflet fixes inside cards */
+.leaflet-container {
+  @apply rounded-xl z-0;
+  font-family: inherit;
+}
+
+/* Accessible focus */
+:focus-visible {
+  @apply outline-none ring-2 ring-brand-500 ring-offset-2;
+}
+
+/* thin scrollbars */
+* {
+  scrollbar-width: thin;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  @apply bg-slate-300 rounded-full;
+}
+
+@keyframes pulse-dot {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.6); opacity: 0.5; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.live-dot {
+  animation: pulse-dot 1.6s ease-in-out infinite;
+}
+
+@keyframes slide-up {
+  from { transform: translateY(8px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.toast-in {
+  animation: slide-up 0.25s ease-out;
+}
